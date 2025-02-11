@@ -10,7 +10,7 @@ import {
   VaultServiceInterface,
   WorkspaceServiceInterface,
 } from "types";
-import Jimp from "jimp";
+import jimp, { Jimp } from "jimp";
 import { promises as fs } from "fs";
 
 export class ImageGeneratorApp {
@@ -55,12 +55,12 @@ export class ImageGeneratorApp {
 
   async createThumbnail(
     imageBuffer: Buffer,
-    outputPath: string
+    outputPath: `${string}.${string}`
   ): Promise<void> {
     try {
       const image = await Jimp.read(imageBuffer);
-      const resizedImage = image.resize(64, 64);
-      await resizedImage.writeAsync(outputPath);
+      image.resize({ w: 48, h: 48 }).write(outputPath);
+      console.log("Thumbnail created successfully");
     } catch (err) {
       console.error(err);
       throw err;
@@ -89,9 +89,9 @@ export class ImageGeneratorApp {
       imageBuffer,
       false
     );
-    const thumbnailPath = filePath.replace(".png", "-thumb.png");
+    const thumbnailPath = `${filePath.replace(".png", "-thumb.png")}` as `${string}.${string}`;
     await this.createThumbnail(imageBuffer, thumbnailPath);
-
+    await this.createThumbnail(imageBuffer, "path/to/thumbnail.png");
     this.logger.info(`image saved to ${filePath} for ${socketId}`, {
       icon: "📷",
     });

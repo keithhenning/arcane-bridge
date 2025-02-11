@@ -1,5 +1,5 @@
 import { PluginSystem } from "../../../plugin";
-import puppeteer, { Browser, registerCustomQueryHandler } from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import axios from "axios";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
@@ -139,7 +139,7 @@ class NewsSkill extends ChatAbilityBase implements ChatAbilityInterface {
         }
 
         const browser = await puppeteer.launch({
-          headless: "new",
+          headless: "shell",
           args: [
             "--disable-gpu",
             "--disable-dev-shm-usage",
